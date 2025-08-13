@@ -40,7 +40,7 @@ window.onload = function(){
 //SaveHeros Function create pana poren da :
 function saveHeros(){
     const data = heros.map(function(hero){
-        console.log(hero)
+        // console.log(hero)
         return{
             name:hero.name,
             powerLevel:hero.powerLevel,
@@ -84,16 +84,18 @@ document.getElementById("heroForm").addEventListener("submit" , function(e) {
 })
 
 //UI la Show panuradhukana Fucntion :  
-function renderHeros(){
+function renderHeros(filter=""){
        
     const list = document.querySelector("#heroList");
     list.innerHTML=""; // Duplicate ITem ah remove panirum 
 
     heros.forEach(function(hero, index) {
+
+        if(hero.name.toLowerCase().includes(filter.toLowerCase())){
         const item = document.createElement("li");
 
         item.className = "list-group-item d-flex justify-content-between aling-item-center";
-
+ 
                 item.innerHTML = `
                     <div>
                         <strong>${hero.name}</strong> (Power: ${hero.powerLevel})
@@ -109,6 +111,7 @@ function renderHeros(){
 
                 list.appendChild(item)
                 // console.log(heroList);
+        }        
             
     })
 
@@ -138,6 +141,37 @@ function editHero(index){
      editIndex = index
     // console.log(index)
 }
+
+// Target the Search Filter Input
+document.querySelector("#searchHero").addEventListener("input" , function(e){
+    renderHeros(e.target.value)
+})
+
+
+
+// Sort Ascending & Descending The Powerlevel :
+function sortHeros(isAscending) {
+    heros.sort(function(a, b) {
+        if (isAscending) {
+            return a.powerLevel - b.powerLevel; // Ascending
+        } else {
+            return b.powerLevel - a.powerLevel; // Descending
+        }
+    });
+
+    renderHeros(); // UI update
+    saveHeros(); // Save in local storage 
+}
+
+//Toggle function :
+function toggleTheme(){
+    document.body.classList.toggle("bg-dark");
+    document.body.classList.toggle("text-white");
+
+}
+
+
+
 
 
 
